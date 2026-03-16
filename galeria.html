@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería - Unidad Educativa Eduardo Kingman Riofrío</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* VARIABLES */
+        :root {
+            --azul: #1E3A8A;
+            --azul-claro: #90D5FF;
+            --azul-principal: #2563EB;
+            --rojo: #DC2626;
+            --rojo-oscuro: #991B1B;
+            --verde-principal: #22C55E;
+            --verde-claro: #86EFAC;
+            --gris: #f5f5f5;
+            --gris-claro: #F3F4F6;
+            --gris-texto: #4B5563;
+            --gris-oscuro: #1F2937;
+            --blanco: #FFFFFF;
+            --naranja: #F97316;
+            --dorado: #FBBF24;
+        }
+        
+        /* ================= HEADER ================= */
+        .main-header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .logo-box {
+            background: var(--blanco);
+            padding: 20px 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-radius: 0 60px 60px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .logo-box img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+        
+        .logo-text {
+            font-weight: 800;
+            color: var(--rojo);
+            font-size: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+        
+        .nav-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .top-bar {
+            background: transparent;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 1.5rem;
+            margin-right: 1rem;
+            margin-left: auto;
+        }
+        
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.7s;
+        }
+        
+        .top-bar a:hover {
+            color: var(--azul-claro);
+        }
+        
+        .top-bar .fab {
+            font-size: 1.1rem;
+        }
+        
+        .btn-contact {
+            background: var(--rojo);
+            padding: 8px 18px;
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-contact:hover {
+            background: var(--blanco);
+            color: var(--rojo);
+            transform: translateY(-2px);
+        }
+        
+        .navbar {
+            background: var(--blanco);
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            margin-right: 0;
+        }
+        
+        .navbar ul {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .navbar a {
+            text-decoration: none;
+            color: var(--gris-oscuro);
+            font-weight: 700;
+            font-size: 13px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .navbar a:hover,
+        .navbar a.active {
+            background: var(--gris-claro);
+            color: var(--rojo);
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--blanco);
+            min-width: 240px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            border: 2px solid var(--azul-claro);
+            overflow: hidden;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .dropdown-menu a {
+            padding: 12px 18px;
+            color: var(--gris-oscuro);
+            font-size: 14px;
+            text-transform: none;
+            border-bottom: 1px solid var(--gris-claro);
+        }
+        
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-menu a:hover {
+            background: linear-gradient(90deg, var(--azul-claro) 0%, var(--verde-claro) 100%);
+            color: var(--azul);
+            padding-left: 22px;
+        }
+        
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 1rem;
+        }
+        
+        .mobile-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--blanco);
+        }
+        
+        /* ================= BANNER GALERÍA ================= */
+        .galeria-banner {
+            position: relative;
+            height: 500px;
+            background-image: url('visision-mision.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .galeria-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(124, 216, 127, 0.85) 100%);
+            z-index: 1;
+        }
+        
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+        }
+        
+        .banner-content h1 {
+            font-size: 64px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            letter-spacing: 2px;
+        }
+        
+        .banner-content p {
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 500;
+        }
+        
+        .banner-content i {
+            font-size: 60px;
+        }
+        
+        /* ================= GALERÍA PRINCIPAL ================= */
+        .galeria-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        
+        .section-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-intro h2 {
+            font-size: 36px;
+            color: var(--azul);
+            margin-bottom: 1rem;
+        }
+        
+        .section-intro p {
+            font-size: 18px;
+            color: var(--gris-texto);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Grid de Galería */
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .galeria-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            cursor: pointer;
+            aspect-ratio: 4/3;
+            transition: transform 0.3s ease;
+        }
+        
+        .galeria-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+        
+        .galeria-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .galeria-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .galeria-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(30, 58, 138, 0.95), transparent);
+            padding: 2rem 1.5rem 1.5rem;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .galeria-item:hover .galeria-overlay {
+            transform: translateY(0);
+        }
+        
+        .galeria-overlay h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .galeria-overlay p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .galeria-overlay i {
+            position: absolute;
+            top: -30px;
+            right: 20px;
+            font-size: 24px;
+            background: var(--dorado);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: top 0.3s ease;
+        }
+        
+        .galeria-item:hover .galeria-overlay i {
+            top: 15px;
+        }
+        
+        /* Categorías */
+        .categorias-section {
+            margin-top: 4rem;
+        }
+        
+        .categoria-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid var(--dorado);
+        }
+        
+        .categoria-header i {
+            font-size: 32px;
+            color: var(--azul);
+        }
+        
+        .categoria-header h3 {
+            font-size: 28px;
+            color: var(--azul);
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 48px;
+            color: white;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .lightbox-close:hover {
+            color: var(--dorado);
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 48px;
+            color: white;
+            cursor: pointer;
+            padding: 20px;
+            transition: color 0.3s;
+        }
+        
+        .lightbox-nav:hover {
+            color: var(--dorado);
+        }
+        
+        .lightbox-prev {
+            left: 20px;
+        }
+        
+        .lightbox-next {
+            right: 20px;
+        }
+        
+        /* ================= FOOTER ================= */
+        .main-footer {
+            background: linear-gradient(135deg, rgba(30,58,138,0.95) 0%, rgba(37,99,235,0.95) 100%);
+            color: var(--blanco);
+            padding: 4rem 0 1rem;
+            position: relative;
+            overflow: hidden;
+            clear: both;
+            margin-top: 1rem;
+            z-index: 10;
+        }
+        
+        .main-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('pie.png') center/cover no-repeat;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .main-footer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30,58,138,0.5);
+            z-index: 0;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 20px;
+        }
+        
+        .footer-col h4 {
+            color: var(--blanco);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--verde-claro);
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-col ul li a {
+            color: var(--blanco);
+            text-decoration: none;
+            opacity: 0.9;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-col ul li a:hover {
+            opacity: 1;
+            color: var(--verde-claro);
+            padding-left: 5px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .mobile-toggle {
+                display: flex;
+            }
+            
+            .header-container {
+                flex-wrap: wrap;
+                padding: 0 1rem;
+            }
+            
+            .logo-box {
+                width: 100%;
+                justify-content: center;
+                border-radius: 0 0 30px 30px;
+                margin-bottom: 1rem;
+            }
+            
+            .nav-area {
+                width: 100%;
+                align-items: center;
+            }
+            
+            .top-bar {
+                padding: 1rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .navbar {
+                display: none;
+                width: 100%;
+                margin-right: 0;
+            }
+            
+            .navbar.active {
+                display: block;
+            }
+            
+            .navbar ul {
+                flex-direction: column;
+            }
+            
+            .dropdown-menu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                border: 1px solid var(--gris-claro);
+                margin-top: 0.5rem;
+                display: none;
+            }
+            
+            .dropdown-menu.show {
+                display: flex;
+            }
+            
+            .banner-content h1 {
+                font-size: 42px;
+            }
+            
+            .banner-content p {
+                font-size: 18px;
+            }
+            
+            .galeria-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .banner-content h1 {
+                font-size: 32px;
+            }
+            
+            .banner-content p {
+                font-size: 16px;
+            }
+            
+            .galeria-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lightbox-nav {
+                font-size: 32px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-box">
+                <img src="logo-kingman.png" alt="Logo">
+                <div class="logo-text">EDUARDO<br>KINGMAN RIOFRÍO</div>
+            </div>
+            
+            <div class="nav-area">
+                <div class="top-bar">
+                    <a href="mailto:eduardo.kingman11@gmail.com">
+                        <i class="fas fa-envelope"></i> eduardo.kingman11@gmail.com
+                    </a>
+                    <a href="https://www.facebook.com/share/1AYH7w3nQB/" target="_blank">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a class="btn-contact" href="#contacto">
+                        <i class="fas fa-envelope"></i> Contáctenos
+                    </a>
+                </div>
+                
+                <div class="navbar" id="navbar">
+                    <ul>
+                        <li><a href="index.html">INICIO</a></li>
+                        <li class="dropdown">
+                            <a href="#" onclick="toggleDropdown(event)">
+                                QUIÉNES SOMOS <i class="fas fa-chevron-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html#acerca">Acerca de Nosotros</a></li>
+                                <li><a href="index.html#mision-vision">Misión y Visión</a></li>
+                                <li><a href="principios-valores.html">Principios y Valores</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" onclick="toggleDropdown(event)">
+                                ACADÉMICO <i class="fas fa-chevron-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="index.html#niveles">Niveles Educativos</a></li>
+                                <li><a href="requisitos.html">Requisitos de Matrícula</a></li>
+                                <li><a href="uniforme.html">Uso Adecuado del Uniforme</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="galeria.html" class="active">GALERÍA</a></li>
+                        <li><a href="index.html#contacto">CONTACTO</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="mobile-toggle" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- BANNER GALERÍA -->
+    <section class="galeria-banner">
+        <div class="banner-content">
+            <h1>
+                <i class="fas fa-images"></i>
+                GALERÍA
+            </h1>
+            <p>Instantes memorables en nuestra institución educativa</p>
+        </div>
+    </section>
+    
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="galeria-container">
+        <div class="section-intro">
+            <h2><i class="fas fa-camera"></i> Nuestros Momentos Especiales</h2>
+            <p>Revive los mejores momentos de nuestra comunidad educativa a través de estas fotografías que capturan la esencia de nuestro quehacer diario.</p>
+        </div>
+        
+        <!-- Galería Principal -->
+        <div class="galeria-grid">
+            <div class="galeria-item" onclick="openLightbox(0)">
+                <img src="cambiar1.jpeg" alt="Evento 1">
+                <div class="galeria-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <h3>Actos Cívicos</h3>
+                    <p>Celebraciones y ceremonias institucionales</p>
+                </div>
+            </div>
+            
+            <div class="galeria-item" onclick="openLightbox(1)">
+                <img src="pro.jpeg" alt="Evento 2">
+                <div class="galeria-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <h3>Actividades Académicas</h3>
+                    <p>Clases y proyectos educativos</p>
+                </div>
+            </div>
+            
+            <div class="galeria-item" onclick="openLightbox(2)">
+                <img src="pie.png" alt="Evento 3">
+                <div class="galeria-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <h3>Educación Física</h3>
+                    <p>Deportes y actividades recreativas</p>
+                </div>
+            </div>
+            
+            <div class="galeria-item" onclick="openLightbox(3)">
+                <img src="fest.jpeg" alt="Evento 4">
+                <div class="galeria-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <h3>Eventos Culturales</h3>
+                    <p>Festivales y presentaciones artísticas</p>
+                </div>
+            </div>
+            
+            <div class="galeria-item" onclick="openLightbox(4)">
+                <img src="nav.jpeg" alt="Evento 5">
+                <div class="galeria-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <h3>Celebraciones</h3>
+                </div>
+            </div>
+            
+            <div class="galeria-item" onclick="openLightbox(5)">
+                <img src="ferias.jpeg" alt="Evento 6">
+                <div class="galeria-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <h3>Actividades Lúdicas</h3>
+                </div>
+            </div>
+                        <div class="galeria-item" onclick="openLightbox(5)">
+                <img src="feri.jpeg" alt="Evento 7">
+                <div class="galeria-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <h3>Actividades Lúdicas</h3>
+                </div>
+            </div>
+                        <div class="galeria-item" onclick="openLightbox(5)">
+                <img src="feria.jpeg" alt="Evento 8">
+                <div class="galeria-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <h3>Actividades Lúdicas</h3>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <span class="lightbox-nav lightbox-prev" onclick="changeImage(-1)">&#10094;</span>
+        <span class="lightbox-nav lightbox-next" onclick="changeImage(1)">&#10095;</span>
+        <img src="" alt="Imagen ampliada" id="lightbox-img">
+    </div>
+    
+    <!-- FOOTER -->
+    <footer class="main-footer" id="contacto">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>QUIÉNES SOMOS</h4>
+                <ul>
+                    <li><a href="mision-vision.html">Misión y Visión</a></li>
+                    <li><a href="principios-valores.html">Nuestros Principios y Valores</a></li>
+                    <li><a href="Conocenos.html">Sobre Nosotros</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>ACADÉMICO</h4>
+                <ul>
+                            <li><a href="index.html#niveles">Niveles Educativos</a></li>
+                            <li><a href="requisitos.html">Requisitos de Matrícula</a></li>
+                            <li><a href="uniforme.html">Uso Adecuado del Uniforme</a></li>
+
+
+                </ul>
+            </div>
+            <div class="footer-col">
+                <p><i class="fas fa-envelope"></i> eduardo.kingman11@gmail.com</p>
+                <p><i class="fas fa-clock"></i> Atención: 08h00 a 13h00</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Unidad Educativa Eduardo Kingman Riofrío. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Dropdown Mobile
+        function toggleDropdown(e) {
+            if (window.innerWidth <= 968) {
+                e.preventDefault();
+                const menu = e.currentTarget.nextElementSibling;
+                if (menu) menu.classList.toggle('show');
+            }
+        }
+        
+        // Mobile Menu
+        function toggleMobileMenu() {
+            const nav = document.getElementById('navbar');
+            if (nav) nav.classList.toggle('active');
+        }
+        
+        // Cerrar dropdowns al hacer clic fuera
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+            }
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.main-header');
+            if (header) {
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(255,255,255,0.95)';
+                    header.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                } else {
+                    header.style.background = 'transparent';
+                    header.style.boxShadow = 'none';
+                }
+            }
+        });
+        
+        // Lightbox functionality
+        let currentImageIndex = 0;
+        const images = [
+            'parada.jpeg',
+            'diario.jpeg',
+            'e_fisica.jpeg',
+            'visision-mision.png',
+            'logo-kingman.png',
+            'pie.png',
+            'parada.jpeg',
+            'diario.jpeg',
+            'e_fisica.jpeg'
+        ];
+        
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = images[index];
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function changeImage(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) {
+                currentImageIndex = images.length - 1;
+            } else if (currentImageIndex >= images.length) {
+                currentImageIndex = 0;
+            }
+            document.getElementById('lightbox-img').src = images[currentImageIndex];
+        }
+        
+        // Cerrar lightbox con tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowLeft') {
+                changeImage(-1);
+            } else if (e.key === 'ArrowRight') {
+                changeImage(1);
+            }
+        });
+        
+        // Cerrar lightbox al hacer clic fuera de la imagen
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
